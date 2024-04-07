@@ -69,7 +69,7 @@ func (r *repository) Delete(id int) error {
 func (r *repository) CreateTurnoDniMatricula(turnoDM domain.TurnoDM) (domain.TurnoDM, error) {
 	err := r.storage.CreateTurnoDniMatricula(turnoDM)
 	if err != nil {
-		return domain.TurnoDM{}, errors.New("Error al crear turno.")
+		return domain.TurnoDM{}, errors.New("Error al crear turno. Revisar valores de matricula y dni.")
 	}
 	return turnoDM, nil
 }

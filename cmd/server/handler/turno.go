@@ -99,7 +99,7 @@ func validarHora(exp string) (bool, error) {
 	}
 	condition := (list[0] < 7 || list[0] > 19) || (list[1] < 0 || list[1] > 59)
 	if condition {
-		return false, errors.New("Hora de turno invalida. Revise los valores, la hora debe estar entre las 07:00 y las 19:00")
+		return false, errors.New("Hora de turno invalida. Revise los valores, la hora debe estar entre las 07:00 y las 20:00")
 	}
 	return true, nil
 }
@@ -366,6 +366,10 @@ func (h *turnoHandler) GetByDni() gin.HandlerFunc {
 		listaTurnos, err := h.s.GetByDni(dni)
 		if err != nil {
 			web.Failure(c, 404, err)
+			return
+		}
+		if len(listaTurnos) <= 0 {
+			web.Failure(c, 400, errors.New("No existen turnos para el DNI ingresado"))
 			return
 		}
 		web.Success(c, 200, listaTurnos, "Turno/s encontrado/s con exito")

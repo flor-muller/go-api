@@ -2,6 +2,7 @@ package store
 
 import (
 	"database/sql"
+	"errors"
 	"log"
 	"muller-odontologia/internal/domain"
 )
@@ -296,9 +297,11 @@ func (s *sqlStore) CreateTurnoDniMatricula(turnoDM domain.TurnoDM) error {
 		log.Fatal(err)
 	}
 
-	_, err = res.RowsAffected()
+	numberRows, err := res.RowsAffected()
 	if err != nil {
 		return err
+	} else if numberRows == 0 {
+		return errors.New("No se creó el turno")
 	}
 
 	return nil
@@ -311,10 +314,10 @@ func (s *sqlStore) ReadTurnoDni(dni string) ([]domain.TurnoDetalle, error) {
 	if err != nil {
 		return []domain.TurnoDetalle{}, err
 	}
-	var listaTurnos []domain.TurnoDetalle
+	listaTurnos := []domain.TurnoDetalle{}
 	for rows.Next() {
 		var turnoDetalle domain.TurnoDetalle
-		err := rows.Scan(&turnoDetalle.Fecha, &turnoDetalle.Hora, &turnoDetalle.Descripcion, &turnoDetalle.Paciente.Apellido, &turnoDetalle.Descripcion)
+		err := rows.Scan(&turnoDetalle.Fecha, &turnoDetalle.Hora, &turnoDetalle.Descripcion, &turnoDetalle.Paciente.Id, &turnoDetalle.Paciente.Apellido, &turnoDetalle.Paciente.Nombre, &turnoDetalle.Paciente.Domicilio, &turnoDetalle.Paciente.Dni, &turnoDetalle.Paciente.Alta, &turnoDetalle.Odontologo.Id, &turnoDetalle.Odontologo.Apellido, &turnoDetalle.Odontologo.Nombre, &turnoDetalle.Odontologo.Matricula)
 		if err != nil {
 			return []domain.TurnoDetalle{}, err
 		}
