@@ -6,6 +6,7 @@ import (
 	"muller-odontologia/cmd/server/handler"
 	"muller-odontologia/internal/odontologo"
 	"muller-odontologia/internal/paciente"
+	"muller-odontologia/internal/turno"
 	"muller-odontologia/pkg/middleware"
 	"muller-odontologia/pkg/store"
 
@@ -35,8 +36,8 @@ func main() {
 	servicePaciente := paciente.NewService(repoPaciente)
 	pacienteHandler := handler.NewPacienteHandler(servicePaciente)
 
-	repoTurno := paciente.NewRepository(storage)
-	serviceTurno := paciente.NewService(repoTurno)
+	repoTurno := turno.NewRepository(storage)
+	serviceTurno := turno.NewService(repoTurno)
 	turnoHandler := handler.NewTurnoHandler(serviceTurno)
 
 	r := gin.Default()
