@@ -1,3 +1,12 @@
+-- Delete user if already exists
+DROP USER IF EXISTS 'root'@'localhost';
+
+-- Create user with all privileges
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
+-- 
+
+
 CREATE DATABASE IF NOT EXISTS  turnos_odontologia;
 
 USE turnos_odontologia;

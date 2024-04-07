@@ -46,9 +46,6 @@ func (r *repository) GetByID(id int) (domain.Odontolgo, error) {
 }
 
 func (r *repository) Update(id int, odontologo domain.Odontolgo) (domain.Odontolgo, error) {
-	if r.storage.Exists(odontologo.Matricula) {
-		return domain.Odontolgo{}, errors.New("La matricula ingresada ya existe.")
-	}
 	err := r.storage.UpdateOdontologo(odontologo)
 	if err != nil {
 		return domain.Odontolgo{}, errors.New("Error al actualizar odontologo.")
