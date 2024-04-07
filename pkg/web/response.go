@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,13 +13,15 @@ type errorResponse struct {
 }
 
 type response struct {
-	Data interface{} `json:"data"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
 }
 
 // Respuesta exitosa
-func Success(ctx *gin.Context, status int, data interface{}) {
+func Success(ctx *gin.Context, status int, data interface{}, message string) {
 	ctx.JSON(status, response{
-		Data: data,
+		Message: message,
+		Data:    data,
 	})
 }
 

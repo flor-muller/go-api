@@ -23,8 +23,14 @@ func NewOdontologoHandler(s odontologo.Service) *odontologoHandler {
 
 // Funcion para validar que los campos no esten vacios
 func validarVacios(odontologo *domain.Odontolgo) (bool, error) {
-	if odontologo.Apellido == "" || odontologo.Nombre == "" || odontologo.Matricula == "" {
-		return false, errors.New("Los campos no pueden estar vacios")
+	if odontologo.Apellido == "" {
+		return false, errors.New("Debe ingresar un Apellido")
+	}
+	if odontologo.Nombre == "" {
+		return false, errors.New("Debe ingresar un Nombre")
+	}
+	if odontologo.Matricula == "" {
+		return false, errors.New("Debe ingresar una Matricula")
 	}
 	return true, nil
 }
@@ -57,7 +63,7 @@ func (h *odontologoHandler) Post() gin.HandlerFunc {
 			web.Failure(c, 400, err)
 			return
 		}
-		web.Success(c, 201, o)
+		web.Success(c, 201, o, "Odontologo creado con exito")
 	}
 }
 
@@ -75,7 +81,7 @@ func (h *odontologoHandler) GetByID() gin.HandlerFunc {
 			web.Failure(c, 404, err)
 			return
 		}
-		web.Success(c, 200, odontologo)
+		web.Success(c, 200, odontologo, "Odontologo encontrado con exito")
 	}
 }
 
@@ -122,7 +128,7 @@ func (h *odontologoHandler) Put() gin.HandlerFunc {
 			web.Failure(c, 409, err)
 			return
 		}
-		web.Success(c, 200, o)
+		web.Success(c, 200, o, "Odontologo actualizado con exito")
 	}
 }
 
@@ -149,7 +155,7 @@ func (h *odontologoHandler) Delete() gin.HandlerFunc {
 			web.Failure(c, 404, err)
 			return
 		}
-		web.Success(c, 204, nil)
+		web.Success(c, 200, nil, "Odontologo eliminado con exito")
 	}
 }
 
@@ -196,6 +202,6 @@ func (h *odontologoHandler) Patch() gin.HandlerFunc {
 			web.Failure(c, 409, err)
 			return
 		}
-		web.Success(c, 200, o)
+		web.Success(c, 200, o, "Odontologo actualizado con exito")
 	}
 }

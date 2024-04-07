@@ -54,7 +54,11 @@ func (r *repository) Update(id int, odontologo domain.Odontolgo) (domain.Odontol
 }
 
 func (r *repository) Delete(id int) error {
-	err := r.storage.DeleteOdontologo(id)
+	_, err := r.GetByID(id)
+	if err != nil {
+		return err
+	}
+	err = r.storage.DeleteOdontologo(id)
 	if err != nil {
 		return err
 	}
