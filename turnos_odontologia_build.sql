@@ -31,3 +31,17 @@ CREATE TABLE pacientes (
     dni VARCHAR(255),
     alta VARCHAR(255)
 );
+
+-- Create table turnos
+DROP TABLE IF EXISTS turnos;
+
+CREATE TABLE turnos (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_paciente INTEGER,
+    id_odontologo INTEGER,
+    fecha VARCHAR(255),
+    hora VARCHAR(255),
+    descripcion VARCHAR(255),
+    FOREIGN KEY (id_paciente) REFERENCES pacientes(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_odontologo) REFERENCES odontologos(id) ON DELETE CASCADE
+);

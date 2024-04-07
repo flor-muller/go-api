@@ -203,3 +203,123 @@ func (s *sqlStore) ExistsDni(dni string) bool {
 	}
 	return exists
 }
+
+//--------CRUD TURNOS--------
+
+// Create agrega un nuevo turno
+func (s *sqlStore) CreateTurno(turno domain.Turno) error {
+	query := "INSERT INTO turnos (id_paciente, id_odontologo, fecha, hora, descripcion) VALUES (?, ?, ?, ?, ?);"
+
+	stmt, err := s.db.Prepare(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	res, err := stmt.Exec(turno.IdPaciente, turno.IdOdontologo, turno.Fecha, turno.Hora, turno.Descripcion)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Read devuelve un turno por su id
+func (s *sqlStore) ReadTurno(id int) (domain.Turno, error) {
+	var turno domain.Turno
+	query := "SELECT * FROM turnos WHERE id = ?;"
+	row := s.db.QueryRow(query, id)
+	err := row.Scan(&turno.Id, &turno.IdPaciente, &turno.IdOdontologo, &turno.Fecha, &turno.Hora, &turno.Descripcion)
+	if err != nil {
+		return domain.Turno{}, err
+	}
+	return turno, nil
+}
+
+// Update actualiza un turno
+func (s *sqlStore) UpdateTurno(turno domain.Turno) error {
+	query := "UPDATE turnos SET id_paciente = ?, id_odontologo = ?, fecha = ?, hora = ?, descripcion = ? WHERE id = ?;"
+
+	stmt, err := s.db.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	res, err := stmt.Exec(turno.IdPaciente, turno.IdOdontologo, turno.Fecha, turno.Hora, turno.Descripcion, turno.Id)
+	if err != nil {
+		return err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Delete elimina un turno
+func (s *sqlStore) DeleteTurno(id int) error {
+	query := "DELETE FROM turnos WHERE id = ?;"
+
+	stmt, err := s.db.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	res, err := stmt.Exec(id)
+	if err != nil {
+		return err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// CreateTurnoDniMatricula agrega un nuevo turno por DNI del paciente y matrícula del odontologo
+func (s *sqlStore) CreateTurnoDniMatricula(turnoDM domain.TurnoDM) error {
+	query := "INSERT INTO turnos (id_paciente, id_odontologo, fecha, hora, descripcion) SELECT pacientes.id, odontologos.id, ?, ?, ? FROM pacientes INNER JOIN odontologos ON odontologos.matricula = ? WHERE pacientes.dni = ?;"
+
+	stmt, err := s.db.Prepare(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	res, err := stmt.Exec(turnoDM.Fecha, turnoDM.Hora, turnoDM.Descripcion, turnoDM.Matricula, turnoDM.Dni)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ReadTurnoDni devuelve turno por DNI del paciente
+func (s *sqlStore) ReadTurnoDni(dni string) ([]domain.TurnoDetalle, error) {
+	query := "SELECT turnos.fecha, turnos.hora, turnos.descripcion, turnos.id_paciente, pacientes.apellido, pacientes.nombre, pacientes.domicilio, pacientes.dni, pacientes.alta, turnos.id_odontologo, odontologos.apellido, odontologos.nombre, odontologos.matricula FROM turnos INNER JOIN pacientes ON turnos.id_paciente = pacientes.id INNER JOIN odontologos ON turnos.id_odontologo = odontologos.id WHERE pacientes.dni = ?;"
+	rows, err := s.db.Query(query, dni)
+	if err != nil {
+		return []domain.TurnoDetalle{}, err
+	}
+	var listaTurnos []domain.TurnoDetalle
+	for rows.Next() {
+		var turnoDetalle domain.TurnoDetalle
+		err := rows.Scan(&turnoDetalle.Fecha, &turnoDetalle.Hora, &turnoDetalle.Descripcion, &turnoDetalle.Paciente.Apellido, &turnoDetalle.Descripcion)
+		if err != nil {
+			return []domain.TurnoDetalle{}, err
+		}
+		listaTurnos = append(listaTurnos, turnoDetalle)
+	}
+	return listaTurnos, nil
+
+}

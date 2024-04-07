@@ -42,7 +42,7 @@ func validarVaciosPaciente(paciente *domain.Paciente) (bool, error) {
 	return true, nil
 }
 
-// validarAlta valida que la fecha de alta sea valida
+// validarAlta verifica que la fecha de alta sea valida
 func validarAlta(exp string) (bool, error) {
 	dates := strings.Split(exp, "/")
 	list := []int{}
@@ -193,7 +193,7 @@ func (h *pacienteHandler) Delete() gin.HandlerFunc {
 			web.Failure(c, 404, err)
 			return
 		}
-		web.Success(c, 200, nil, "Paciente eliminado con exito")
+		web.Success(c, 200, nil, "Paciente eliminado con exito. Se eliminaron tambien sus turnos asociados.")
 	}
 }
 

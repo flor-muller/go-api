@@ -155,7 +155,7 @@ func (h *odontologoHandler) Delete() gin.HandlerFunc {
 			web.Failure(c, 404, err)
 			return
 		}
-		web.Success(c, 200, nil, "Odontologo eliminado con exito")
+		web.Success(c, 200, nil, "Odontologo eliminado con exito. Se eliminaron tambien sus turnos asociados.")
 	}
 }
 

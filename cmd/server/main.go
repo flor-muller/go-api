@@ -35,6 +35,10 @@ func main() {
 	servicePaciente := paciente.NewService(repoPaciente)
 	pacienteHandler := handler.NewPacienteHandler(servicePaciente)
 
+	repoTurno := paciente.NewRepository(storage)
+	serviceTurno := paciente.NewService(repoTurno)
+	turnoHandler := handler.NewTurnoHandler(serviceTurno)
+
 	r := gin.Default()
 
 	//--------ODONTOLOGOS--------
@@ -55,6 +59,18 @@ func main() {
 		pacientes.PUT(":id", middleware.Authentication(), pacienteHandler.Put())
 		pacientes.DELETE(":id", middleware.Authentication(), pacienteHandler.Delete())
 		pacientes.PATCH(":id", middleware.Authentication(), pacienteHandler.Patch())
+	}
+
+	//--------TURNOS--------
+	turnos := r.Group("/turnos")
+	{
+		turnos.POST("", middleware.Authentication(), turnoHandler.Post())
+		turnos.GET(":id", turnoHandler.GetByID())
+		turnos.PUT(":id", middleware.Authentication(), turnoHandler.Put())
+		turnos.DELETE(":id", middleware.Authentication(), turnoHandler.Delete())
+		turnos.PATCH(":id", middleware.Authentication(), turnoHandler.Patch())
+		turnos.POST("dm", middleware.Authentication(), turnoHandler.PostByDM())
+		turnos.GET("dni", turnoHandler.GetByDni())
 	}
 
 	r.Run(":8080")

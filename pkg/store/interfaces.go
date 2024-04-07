@@ -8,30 +8,42 @@ type StoreInterface interface {
 
 	//--------CRUD ODONTOLOGOS--------
 
-	// Create agrega un nuevo odontologo
+	// CreateOdontologo agrega un nuevo odontologo
 	CreateOdontologo(odontologo domain.Odontologo) error
-	// Read devuelve un odontologo por su id
+	// ReadOdontologo devuelve un odontologo por su id
 	ReadOdontologo(id int) (domain.Odontologo, error)
-	// Update actualiza un odontologo
+	// UpdateOdontologo actualiza un odontologo
 	UpdateOdontologo(odontologo domain.Odontologo) error
-	// Delete elimina un odontologo
+	// DeleteOdontologo elimina un odontologo
 	DeleteOdontologo(id int) error
-
-	// Exists verifica si la matricula de odontologo ya existe
+	// ExistsMatricula verifica si la matricula de odontologo ya existe
 	ExistsMatricula(matricula string) bool
-
-	//GetAll() ([]domain.Odontologo, error)
 
 	//--------CRUD PACIENTES--------
 
-	// Create agrega un nuevo paciente
+	// CreatePaciente agrega un nuevo paciente
 	CreatePaciente(paciente domain.Paciente) error
-	// Read devuelve un paciente por su id
+	// ReadPaciente devuelve un paciente por su id
 	ReadPaciente(id int) (domain.Paciente, error)
-	// Update actualiza un paciente
+	// UpdatePaciente actualiza un paciente
 	UpdatePaciente(paciente domain.Paciente) error
-	// Delete elimina un paciente
+	// DeletePaciente elimina un paciente
 	DeletePaciente(id int) error
-	// Exists verifica si un DNI de paciente ya existe
+	// ExistsDni verifica si un DNI de paciente ya existe
 	ExistsDni(dni string) bool
+
+	//--------CRUD TURNOS--------
+
+	// CreateTurno agrega un nuevo turno
+	CreateTurno(turno domain.Turno) error
+	// ReadTurno devuelve un turno por su id
+	ReadTurno(id int) (domain.Turno, error)
+	// Update actualiza un turno
+	UpdateTurno(turno domain.Turno) error
+	// Delete elimina un turno
+	DeleteTurno(id int) error
+	//CreateTurnoDniMatricula agrega un nuevo turno por DNI del paciente y matrícula del dentista
+	CreateTurnoDniMatricula(turnoDM domain.TurnoDM) error
+	//ReadTurnoDni devuelve turno por DNI del paciente
+	ReadTurnoDni(dni string) ([]domain.TurnoDetalle, error)
 }
