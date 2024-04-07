@@ -56,7 +56,7 @@ func validarAlta(exp string) (bool, error) {
 		}
 		list = append(list, number)
 	}
-	condition := (list[0] < 1 || list[0] > 31) && (list[1] < 1 || list[1] > 12) && (list[2] < 1 || list[2] > 9999)
+	condition := (list[0] < 1 || list[0] > 31) || (list[1] < 1 || list[1] > 12) || (list[2] < 1 || list[2] > 9999)
 	if condition {
 		return false, errors.New("Fecha de alta invalida. Revise los valores asignados a dia, mes y/o año (dd/mm/aaa)")
 	}
