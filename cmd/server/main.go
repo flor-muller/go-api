@@ -5,6 +5,7 @@ import (
 	"log"
 	"muller-odontologia/cmd/server/handler"
 	"muller-odontologia/internal/odontologo"
+	"muller-odontologia/internal/paciente"
 	"muller-odontologia/pkg/middleware"
 	"muller-odontologia/pkg/store"
 
@@ -25,9 +26,14 @@ func main() {
 	}
 
 	storage := store.NewSqlStore(bd)
-	repo := odontologo.NewRepository(storage)
-	service := odontologo.NewService(repo)
-	odontologoHandler := handler.NewOdontologoHandler(service)
+
+	repoOdontologo := odontologo.NewRepository(storage)
+	serviceOdontologo := odontologo.NewService(repoOdontologo)
+	odontologoHandler := handler.NewOdontologoHandler(serviceOdontologo)
+
+	repoPaciente := paciente.NewRepository(storage)
+	servicePaciente := paciente.NewService(repoPaciente)
+	pacienteHandler := handler.NewPacienteHandler(servicePaciente)
 
 	r := gin.Default()
 
@@ -39,6 +45,16 @@ func main() {
 		odontologos.PUT(":id", middleware.Authentication(), odontologoHandler.Put())
 		odontologos.DELETE(":id", middleware.Authentication(), odontologoHandler.Delete())
 		odontologos.PATCH(":id", middleware.Authentication(), odontologoHandler.Patch())
+	}
+
+	//--------PACIENTES--------
+	pacientes := r.Group("/pacientes")
+	{
+		pacientes.POST("", middleware.Authentication(), pacienteHandler.Post())
+		pacientes.GET(":id", pacienteHandler.GetByID())
+		pacientes.PUT(":id", middleware.Authentication(), pacienteHandler.Put())
+		pacientes.DELETE(":id", middleware.Authentication(), pacienteHandler.Delete())
+		pacientes.PATCH(":id", middleware.Authentication(), pacienteHandler.Patch())
 	}
 
 	r.Run(":8080")

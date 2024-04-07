@@ -1,6 +1,6 @@
 package domain
 
-type Odontolgo struct {
+type Odontologo struct {
 	Id        int    `json:"id"`
 	Apellido  string `json:"apellido" binding:"required"`
 	Nombre    string `json:"nombre" binding:"required"`

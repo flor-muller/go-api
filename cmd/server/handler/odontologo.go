@@ -22,7 +22,7 @@ func NewOdontologoHandler(s odontologo.Service) *odontologoHandler {
 }
 
 // Funcion para validar que los campos no esten vacios
-func validarVacios(odontologo *domain.Odontolgo) (bool, error) {
+func validarVaciosOdontologo(odontologo *domain.Odontologo) (bool, error) {
 	if odontologo.Apellido == "" {
 		return false, errors.New("Debe ingresar un Apellido")
 	}
@@ -38,7 +38,7 @@ func validarVacios(odontologo *domain.Odontolgo) (bool, error) {
 // Post crea un nuevo odontologo
 func (h *odontologoHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var odontologo domain.Odontolgo
+		var odontologo domain.Odontologo
 		token := c.GetHeader("TOKEN")
 		if token == "" {
 			web.Failure(c, 401, errors.New("Token no encontrado"))
@@ -53,7 +53,7 @@ func (h *odontologoHandler) Post() gin.HandlerFunc {
 			web.Failure(c, 400, errors.New("JSON invalido"))
 			return
 		}
-		valid, err := validarVacios(&odontologo)
+		valid, err := validarVaciosOdontologo(&odontologo)
 		if !valid {
 			web.Failure(c, 400, err)
 			return
@@ -112,13 +112,13 @@ func (h *odontologoHandler) Put() gin.HandlerFunc {
 			web.Failure(c, 409, err)
 			return
 		}
-		var odontologo domain.Odontolgo
+		var odontologo domain.Odontologo
 		err = c.ShouldBindJSON(&odontologo)
 		if err != nil {
 			web.Failure(c, 400, errors.New("JSON invalido"))
 			return
 		}
-		valid, err := validarVacios(&odontologo)
+		valid, err := validarVaciosOdontologo(&odontologo)
 		if !valid {
 			web.Failure(c, 400, err)
 			return
@@ -192,7 +192,7 @@ func (h *odontologoHandler) Patch() gin.HandlerFunc {
 			web.Failure(c, 400, errors.New("JSON invalido"))
 			return
 		}
-		update := domain.Odontolgo{
+		update := domain.Odontologo{
 			Apellido:  r.Apellido,
 			Nombre:    r.Nombre,
 			Matricula: r.Matricula,

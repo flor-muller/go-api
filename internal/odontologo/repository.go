@@ -8,11 +8,11 @@ import (
 
 type Repository interface {
 	// Create agrega un nuevo odontologo
-	Create(odontologo domain.Odontolgo) (domain.Odontolgo, error)
+	Create(odontologo domain.Odontologo) (domain.Odontologo, error)
 	// GetByID devuelve un odontologo por id
-	GetByID(id int) (domain.Odontolgo, error)
+	GetByID(id int) (domain.Odontologo, error)
 	// Update actualiza un odontologo
-	Update(id int, odontologo domain.Odontolgo) (domain.Odontolgo, error)
+	Update(id int, odontologo domain.Odontologo) (domain.Odontologo, error)
 	// Delete elimina un odontologo
 	Delete(id int) error
 }
@@ -25,30 +25,30 @@ func NewRepository(storage store.StoreInterface) Repository {
 	return &repository{storage}
 }
 
-func (r *repository) Create(odontologo domain.Odontolgo) (domain.Odontolgo, error) {
-	if r.storage.Exists(odontologo.Matricula) {
-		return domain.Odontolgo{}, errors.New("La matricula ingresada ya existe.")
+func (r *repository) Create(odontologo domain.Odontologo) (domain.Odontologo, error) {
+	if r.storage.ExistsMatricula(odontologo.Matricula) {
+		return domain.Odontologo{}, errors.New("La matricula ingresada ya existe.")
 	}
 	err := r.storage.CreateOdontologo(odontologo)
 	if err != nil {
-		return domain.Odontolgo{}, errors.New("Error al crear odontologo.")
+		return domain.Odontologo{}, errors.New("Error al crear odontologo.")
 	}
 	return odontologo, nil
 }
 
-func (r *repository) GetByID(id int) (domain.Odontolgo, error) {
+func (r *repository) GetByID(id int) (domain.Odontologo, error) {
 	odontologo, err := r.storage.ReadOdontologo(id)
 	if err != nil {
-		return domain.Odontolgo{}, errors.New("Odontologo no encontrado.")
+		return domain.Odontologo{}, errors.New("Odontologo no encontrado.")
 	}
 	return odontologo, nil
 
 }
 
-func (r *repository) Update(id int, odontologo domain.Odontolgo) (domain.Odontolgo, error) {
+func (r *repository) Update(id int, odontologo domain.Odontologo) (domain.Odontologo, error) {
 	err := r.storage.UpdateOdontologo(odontologo)
 	if err != nil {
-		return domain.Odontolgo{}, errors.New("Error al actualizar odontologo.")
+		return domain.Odontologo{}, errors.New("Error al actualizar odontologo.")
 	}
 	return odontologo, nil
 }
