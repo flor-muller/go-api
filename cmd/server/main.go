@@ -13,8 +13,20 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
+	// swaggerFiles "github.com/swaggo/files"
+	// ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title Certified Tech Developer
+// @version 1.0
+// @description This API handles dentist clinic appointments.
+// @termsOfService https://developers.ctd.com.ar/es_ar/terminos-y-condiciones
+
+// @contact.name API Support
+// @contact.url https://developers.ctd.com.ar/support
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -41,6 +53,9 @@ func main() {
 	turnoHandler := handler.NewTurnoHandler(serviceTurno)
 
 	r := gin.Default()
+
+	// docs.SwaggerInfo.Host = os.Getenv("HOST")
+	// r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//--------ODONTOLOGOS--------
 	odontologos := r.Group("/odontologos")

@@ -104,7 +104,17 @@ func validarHora(exp string) (bool, error) {
 	return true, nil
 }
 
-// Post crea un nuevo turno
+// Post godoc
+// @Summary      Creates a appointment
+// @Description  Creates a appointment in repository
+// @Tags         turnos
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        body body domain.Turno true "Turno"
+// @Success      201 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Router       /turnos [post]
 func (h *turnoHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var turno domain.Turno
@@ -146,7 +156,16 @@ func (h *turnoHandler) Post() gin.HandlerFunc {
 	}
 }
 
-// Get devuelve un turno por id
+// GetByID godoc
+// @Summary      Gets an appointment by id
+// @Description  Gets an appointment by id from the repository
+// @Tags         turnos
+// @Produce      json
+// @Param        id path string true "ID"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Router       /turnos/{id} [get]
 func (h *turnoHandler) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("id")
@@ -164,7 +183,20 @@ func (h *turnoHandler) GetByID() gin.HandlerFunc {
 	}
 }
 
-// Put actualiza un turno
+// Put godoc
+// @Summary      Updates a appointment
+// @Description  Updates a appointment from the repository
+// @Tags         turnos
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path string true "ID"
+// @Param        body body domain.Turno true "Turno"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Failure      409 {object}  web.errorResponse
+// @Router       /turnos/{id} [put]
 func (h *turnoHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -221,7 +253,18 @@ func (h *turnoHandler) Put() gin.HandlerFunc {
 	}
 }
 
-// Delete elimina un turno
+// Delete godoc
+// @Summary      Deletes an appoointmet
+// @Description  Deletes an appoointmet from the repository
+// @Tags         turnos
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path string true "ID"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Router       /turnos/{id} [delete]
 func (h *turnoHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -248,7 +291,20 @@ func (h *turnoHandler) Delete() gin.HandlerFunc {
 	}
 }
 
-// Patch actualiza un turno o alguno de sus campos
+// Patch godoc
+// @Summary      Updates selected fields
+// @Description  Updates selected fields of an appointment from the repository
+// @Tags         turnos
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path string true "ID"
+// @Param        body body domain.Turno true "Turno"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Failure      409 {object}  web.errorResponse
+// @Router       /turnos/{id} [patch]
 func (h *turnoHandler) Patch() gin.HandlerFunc {
 	type Request struct {
 		IdPaciente   int    `json:"id_paciente,omitempty"`
@@ -313,7 +369,17 @@ func (h *turnoHandler) Patch() gin.HandlerFunc {
 	}
 }
 
-// PostByDM agrega un nuevo turno por DNI del paciente y matrícula del odontologo
+// PostByDM godoc
+// @Summary      Creates a appointment by patient's dni and dentist's license
+// @Description  Creates a appointment in repository
+// @Tags         turnos
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        body body domain.TurnoDM true "TurnoDM"
+// @Success      201 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Router       /turnos/dm [post]
 func (h *turnoHandler) PostByDM() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var turnoDM domain.TurnoDM
@@ -355,7 +421,16 @@ func (h *turnoHandler) PostByDM() gin.HandlerFunc {
 	}
 }
 
-// GetByDni devuelve turno por DNI del paciente
+// GetByDni godoc
+// @Summary      Gets an appointment by patient's dni
+// @Description  Gets an appointment by patient's dni from the repository
+// @Tags         turnos
+// @Produce      json
+// @Param        dni query string true "DNI"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Router       /turnos/dni [get]
 func (h *turnoHandler) GetByDni() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		dni := c.Query("dni")

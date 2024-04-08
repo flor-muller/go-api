@@ -63,7 +63,16 @@ func validarAlta(exp string) (bool, error) {
 	return true, nil
 }
 
-// Post crea un nuevo paciente
+// Post godoc
+// @Summary      Creates a new patient
+// @Description  Creates a new patient in repository
+// @Tags         pacientes
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        body body domain.Paciente true "Paciente"
+// @Success      201 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Router       /pacientes [post]
 func (h *pacienteHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var paciente domain.Paciente
@@ -100,7 +109,16 @@ func (h *pacienteHandler) Post() gin.HandlerFunc {
 	}
 }
 
-// Get devuelve un paciente por id
+// GetByID godoc
+// @Summary      Gets a patient by id
+// @Description  Gets a patient by id from the repository
+// @Tags         pacientes
+// @Produce      json
+// @Param        id path string true "ID"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Router       /pacientes/{id} [get]
 func (h *pacienteHandler) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("id")
@@ -118,7 +136,20 @@ func (h *pacienteHandler) GetByID() gin.HandlerFunc {
 	}
 }
 
-// Put actualiza un paciente
+// Put godoc
+// @Summary      Updates a patient
+// @Description  Updates a patient from the repository
+// @Tags         pacientes
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path string true "ID"
+// @Param        body body domain.Paciente true "Paciente"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Failure      409 {object}  web.errorResponse
+// @Router       /pacientes/{id} [put]
 func (h *pacienteHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -170,7 +201,18 @@ func (h *pacienteHandler) Put() gin.HandlerFunc {
 	}
 }
 
-// Delete elimina un paciente
+// Delete godoc
+// @Summary      Deletes a patient
+// @Description  Deletes a patient from the repository
+// @Tags         pacientes
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path string true "ID"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Router       /pacientes/{id} [delete]
 func (h *pacienteHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -197,7 +239,20 @@ func (h *pacienteHandler) Delete() gin.HandlerFunc {
 	}
 }
 
-// Patch actualiza un paciente o alguno de sus campos
+// Patch godoc
+// @Summary      Updates selected fields
+// @Description  Updates selected fields of a patient from the repository
+// @Tags         pacientes
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path string true "ID"
+// @Param        body body domain.Paciente true "Paciente"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Failure      409 {object}  web.errorResponse
+// @Router       /pacientes/{id} [patch]
 func (h *pacienteHandler) Patch() gin.HandlerFunc {
 	type Request struct {
 		Apellido  string `json:"apellido,omitempty"`

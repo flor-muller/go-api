@@ -35,7 +35,17 @@ func validarVaciosOdontologo(odontologo *domain.Odontologo) (bool, error) {
 	return true, nil
 }
 
-// Post crea un nuevo odontologo
+// Post godoc
+// @Summary      Creates a new dentist
+// @Description  Creates a new dentist in repository
+// @Tags         odontologos
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        body body domain.Odontologo true "Odontologo"
+// @Success      201 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Router       /odontologos [post]
 func (h *odontologoHandler) Post() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var odontologo domain.Odontologo
@@ -67,7 +77,16 @@ func (h *odontologoHandler) Post() gin.HandlerFunc {
 	}
 }
 
-// Get devuelve un odontologo por id
+// GetByID godoc
+// @Summary      Gets a dentist by id
+// @Description  Gets a dentist by id from the repository
+// @Tags         odontologos
+// @Produce      json
+// @Param        id path string true "ID"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Router       /odontologos/{id} [get]
 func (h *odontologoHandler) GetByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idParam := c.Param("id")
@@ -85,7 +104,20 @@ func (h *odontologoHandler) GetByID() gin.HandlerFunc {
 	}
 }
 
-// Put actualiza un odontologo
+// Put godoc
+// @Summary      Updates a dentist
+// @Description  Updates a dentist from the repository
+// @Tags         odontologos
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path string true "ID"
+// @Param        body body domain.Odontologo true "Odontologo"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Failure      409 {object}  web.errorResponse
+// @Router       /odontologos/{id} [put]
 func (h *odontologoHandler) Put() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -132,7 +164,18 @@ func (h *odontologoHandler) Put() gin.HandlerFunc {
 	}
 }
 
-// Delete elimina un odontologo
+// Delete godoc
+// @Summary      Deletes a dentist
+// @Description  Deletes a dentist from the repository
+// @Tags         odontologos
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path string true "ID"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Router       /odontologos/{id} [delete]
 func (h *odontologoHandler) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("TOKEN")
@@ -159,7 +202,20 @@ func (h *odontologoHandler) Delete() gin.HandlerFunc {
 	}
 }
 
-// Patch actualiza un odontologo o alguno de sus campos
+// Patch godoc
+// @Summary      Updates selected fields
+// @Description  Updates selected fields of a dentist from the repository
+// @Tags         odontologos
+// @Produce      json
+// @Param        token header string true "token"
+// @Param        id path string true "ID"
+// @Param        body body domain.Odontologo true "Odontologo"
+// @Success      200 {object}  web.response
+// @Failure      400 {object}  web.errorResponse
+// @Failure      401 {object}  web.errorResponse
+// @Failure      404 {object}  web.errorResponse
+// @Failure      409 {object}  web.errorResponse
+// @Router       /odontologos/{id} [patch]
 func (h *odontologoHandler) Patch() gin.HandlerFunc {
 	type Request struct {
 		Apellido  string `json:"apellido,omitempty"`
