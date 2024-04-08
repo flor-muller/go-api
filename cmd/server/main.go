@@ -3,18 +3,20 @@ package main
 import (
 	"database/sql"
 	"log"
+	"muller-odontologia/cmd/server/docs"
 	"muller-odontologia/cmd/server/handler"
 	"muller-odontologia/internal/odontologo"
 	"muller-odontologia/internal/paciente"
 	"muller-odontologia/internal/turno"
 	"muller-odontologia/pkg/middleware"
 	"muller-odontologia/pkg/store"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
-	// swaggerFiles "github.com/swaggo/files"
-	// ginSwagger "github.com/swaggo/gin-swagger"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title Certified Tech Developer
@@ -54,8 +56,8 @@ func main() {
 
 	r := gin.Default()
 
-	// docs.SwaggerInfo.Host = os.Getenv("HOST")
-	// r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	docs.SwaggerInfo.Host = os.Getenv("HOST")
+	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	//--------ODONTOLOGOS--------
 	odontologos := r.Group("/odontologos")
